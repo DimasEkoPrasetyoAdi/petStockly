@@ -1,6 +1,7 @@
 import  express  from "express";
 import pool from "./config";
-
+import {errorHandler} from './middleware/errorHandler'
+import authRouter from './routes/route.auth'
 
 const app = express ()
 
@@ -19,6 +20,10 @@ app.get("/api/db-test", async (_req, res) => {
     res.status(500).json({ success: false, message: "DB error" });
   }
 });
+
+app.use("/", authRouter)
+
+app.use(errorHandler)
 
 
 
