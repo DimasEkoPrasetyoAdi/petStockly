@@ -47,7 +47,7 @@ export const getAllProducts = async (): Promise<Product[]> => {
 
 // get product by id function
 export const getProductById = async (id: number): Promise<Product> => {
-  const result = await pool.query(`SELECT * FROM products WHERE id = $1, [id]`);
+  const result = await pool.query(`SELECT * FROM products WHERE id = $1`, [id]);
 
   if (result.rowCount === 0) {
     throw new Error("Product not found");

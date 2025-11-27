@@ -4,7 +4,7 @@ import {
   getAllProducts,
   getProductById,
 } from "../models/model.product";
-import { create } from "domain";
+
 
 class ProductController {
   static async createProduct(req: Request, res: Response, next: NextFunction) {
@@ -59,8 +59,27 @@ class ProductController {
 
   static async getAllProducts(req: Request, res: Response, next: NextFunction){
     try {
-        
-        
+        const products = await getAllProducts()
+        res.status(200).json(products)
+    } catch (error) {
+        next(error)
+    }
+  }
+
+  static async getProductById(req: Request, res: Response, next: NextFunction){
+    try {
+      const {id} = req.params
+      const numericId = Number(id)
+
+      if(Number.isNaN(numericId)){
+        return res.status(400).json({message : `id must be a number`})
+      }
+
+      const product = await getProductById(numericId)
+      if(!product){
+        res.status(404).json({message: `Product with id ${numericId} not found`})
+      }
+      res.status(200).json(product)
     } catch (error) {
         next(error)
     }
