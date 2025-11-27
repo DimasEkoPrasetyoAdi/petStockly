@@ -32,6 +32,12 @@ export const findUserByEmail = async (
   return result.rows[0];
 };
 
+export const findUserById = async(id: number): Promise<User | null> => {
+  const result = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+  if (result.rowCount === 0) return null;
+  return result.rows[0];
+}
+
 export const createUser = async (
   data: CreateUserInput
 ): Promise<Omit<User, "password">> => {

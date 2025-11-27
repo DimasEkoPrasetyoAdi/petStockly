@@ -1,8 +1,8 @@
 import { createUser, findUserByEmail } from "../models/model.user";
 import { hashPassword,comparePassword } from "../helpers/bcrypt";
-import { signToken, verifyToken } from "../helpers/jwt";
+import { signToken } from "../helpers/jwt";
 import { NextFunction, Request, Response } from "express";
-import { access } from "fs";
+
 
 class AuthController {
 
