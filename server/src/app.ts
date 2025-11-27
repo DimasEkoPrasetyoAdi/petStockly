@@ -2,6 +2,9 @@ import  express  from "express";
 import pool from "./config";
 import {errorHandler} from './middleware/errorHandler'
 import authRouter from './routes/route.auth'
+import productRouter from './routes/route.product'
+
+
 
 const app = express ()
 
@@ -21,7 +24,9 @@ app.get("/api/db-test", async (_req, res) => {
   }
 });
 
+
 app.use("/", authRouter)
+app.use("/", productRouter)
 
 app.use(errorHandler)
 
