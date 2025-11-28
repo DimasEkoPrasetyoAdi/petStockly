@@ -2,20 +2,15 @@ import { createUser, findUserByEmail } from "../models/model.user";
 import { hashPassword,comparePassword } from "../helpers/bcrypt";
 import { signToken } from "../helpers/jwt";
 import { NextFunction, Request, Response } from "express";
+import { registerSchema } from "../validator/validator.auth";
 
 
 class AuthController {
 
     static async register(req: Request, res: Response, next: NextFunction){
         try {
-            const {username, email, password, role, phone_number, address} = req.body
-            if(!username){
-                return res.status(400).json({message : `Username is required`})
-            }else if(!password){
-                return res.status(400).json({message : `Password is required`})
-            }else if(!email){
-                return res.status(400).json({message : `Email is required`})
-            }
+            const parsed = registerSchema.parse(req.body)
+            const {username, email, password, role, phone_number, address} = parsed
 
             const existingUser = await findUserByEmail(email)
             if(existingUser){
