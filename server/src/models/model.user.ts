@@ -5,7 +5,7 @@ export interface User {
     username : string;
     email : string;
     password : string;
-    role : string
+    role: string
     phone_number :string
     address: string
     created_at : Date;
@@ -16,9 +16,9 @@ export interface CreateUserInput{
     username: string
     email: string
     password: string
-    role: string
-    phone_number :string
-    address: string
+    role?: string
+    phone_number? :string
+    address?: string
 }
 
 
@@ -45,7 +45,7 @@ export const createUser = async (
     username,
     email,
     password,
-    role = "Staff",
+    role,
     phone_number = null,
     address = null,
   } = data;

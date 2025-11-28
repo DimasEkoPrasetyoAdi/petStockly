@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Whiskas Tuna 1kg",
+    "description": "Makanan kucing rasa tuna untuk usia 1+ tahun",
+    "price": 75000,
+    "img_url": "https://example.com/whiskas-tuna.jpg",
+    "stock": 20,
+    "category_id": "1",
+    "author_id": "1"
+  },
+  {
+    "name": "Dog Snack Beef",
+    "description": "Snack anjing rasa daging sapi",
+    "price": 45000,
+    "img_url": "https://example.com/dog-snack.jpg",
+    "stock": 50,
+    "category_id": "2",
+    "author_id": "2"
+  },
+  {
+    "name": "Neckless",
+    "description": "Kalung Anjing",
+    "price": 45000,
+    "img_url": "https://example.com/neckless.jpg",
+    "stock": 50,
+    "category_id": "2",
+    "author_id": "1"
+  }
+]

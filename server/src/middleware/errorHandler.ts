@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 
 interface CustomError extends Error {
   status?: number; // optional, kalau kamu kadang lempar { status: 400, ... }
@@ -11,6 +12,13 @@ export const errorHandler = (
   _next: NextFunction
 ) => {
   console.error("ERROR:", error);
+
+  if (error instanceof ZodError) {
+    return res.status(400).json({
+      message: error.issues?.[0]?.message ?? "Validation error",
+    //  errors: error.issues
+    });
+  }
 
   if (error.name === "Unauthorized") {
     res.status(401).json({ message: error.message });
