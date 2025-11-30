@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router"   
 import HomePage from "./pages/HomePage"
+import UserDashBoard from "./pages/UserDashBoard"
 
 function App() {
   
@@ -7,6 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/Inventories" element={<UserDashBoard />} />
       </Routes>
     </BrowserRouter>
     

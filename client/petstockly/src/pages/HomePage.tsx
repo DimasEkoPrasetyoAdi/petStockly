@@ -1,8 +1,66 @@
 import landingpage from '../assets/Mundo Pet.jpg';
+import React, { useState } from "react";
+import { useNavigate, Navigate } from "react-router";
+import http from "../lib/http";
+import { Toaster, toast } from "react-hot-toast";
 
-export default function HomePage() {
+export default function LoginPage() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setFormError("");
+    setSubmitting(true);
+
+    try {
+      const res = await http.post("/login", { email, password });
+
+      const token = res?.data?.access_token;
+
+      if (!token) {
+        const msg = res?.data?.message || "Email atau password salah";
+        setFormError(msg);
+        toast.error(msg); 
+        return;
+      }
+
+      localStorage.setItem("access_token", token);
+
+      toast.success("Login berhasil. Welcome back! 🐾"); 
+
+      navigate("/inventories", { replace: true });
+    } catch (err: any) {
+       console.log(err);
+
+  const messageError =
+    err?.response?.data?.message ||
+    "Email atau password salah";
+
+  toast.error(messageError);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <div className="flex h-screen flex-col bg-slate-100 font-sans">
+
+      {/* Toaster untuk halaman ini saja */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            fontFamily: "Nunito, system-ui, sans-serif",
+            fontSize: "0.9rem",
+          },
+        }}
+      />
       {/* MAIN */}
       <main className="flex flex-1 flex-col overflow-hidden lg:flex-row">
         {/* IMAGE SECTION – FULL KIRI */}
@@ -34,12 +92,14 @@ export default function HomePage() {
               Track supplies, monitor deliveries, and restock faster with PetStockly.
             </p>
 
-            <form className="space-y-5">
+            <form onSubmit={handleLogin} className="space-y-5">
               <div className="space-y-1.5">
                 <label htmlFor="email" className="text-sm font-semibold text-[#1c274c]">
                   Email
                 </label>
                 <input
+                  value={email}
+                  onChange={(e)=> setEmail(e.target.value)}
                   id="email"
                   type="email"
                   placeholder="you@petstockly.com"
@@ -52,6 +112,8 @@ export default function HomePage() {
                   Password
                 </label>
                 <input
+                  value={password}
+                  onChange={(e)=> setPassword(e.target.value)}
                   id="password"
                   type="password"
                   placeholder="Enter your password"
